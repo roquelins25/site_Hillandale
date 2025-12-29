@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body{
+    background-color: #f4f4f4;
+    color: #ffffff;
+    line-height: 1.6;
+    height: 100vh;
+}
+
+/* MENU LATERAL */
+nav.menu-lateral{
+    width: 75px;
+    height: 100vh;
+    background-color: #084f3c;
+    padding: 30px 0;
+    box-shadow: 3px 0 0 rgb(5, 88, 50);
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    transition: width .3s ease;
+}
+nav.menu-lateral:hover{
+    width: 250px;
+}
+
+.btn-expandir > img.logo{
+    display: block;
+    margin: 0 auto 30px auto;
+    width: 65px;
+    cursor: pointer;
+}
+
+ul{
+    height: 100%;
+    list-style-type: none;
+}
+ul li.item-menu{
+    transition: .3s;
+    border-radius: 20px 0px 0px 8px;
+}
+ul li.item-menu:hover{
+    background-color: rgb(17, 174, 85);
+}
+
+/* Destaque do item ATIVO */
+ul li.item-menu.ativo {
+    background-color: rgb(0, 120, 60);
+}
+
+ul li.item-menu a{
+    color: #ffffff;
+    padding: 18px 4%;
+    text-decoration: none;
+    font-size: 20px;
+    display: flex;
+    margin-bottom: 40px;
+    line-height: 40px;
+}
+
+ul li.item-menu a .txt-link{
+    margin-left: 40px;
+}
+
+ul li.item-menu a .icon > i{
+    font-size: 28px;
+    margin-left: 20px;
+}
+
+/* ÁREA DO DASHBOARD */
+div h1{
+    margin-left: 85px;
+    padding: 20px;
+    color: #000000;
+}
+
+.Dashboard {
+    margin-left: 85px;
+    width: calc(100% - 85px);
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+iframe{
+    width: 100%;
+    height: 100vh;
+    border: none;
+    display: none;
+}
+iframe.active{
+    display: block;
+}
