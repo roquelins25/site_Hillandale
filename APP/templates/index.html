@@ -1,46 +1,221 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hillandale</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>BI Portal - Global Eggs</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#a0f906",
+                        "background-light": "#f7f8f5",
+                        "background-dark": "#1c230f",
+                        "brand-dark": "#0f110c",
+                        "brand-gray": "#2b2e25",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Custom Styles -->
+    <style type="text/tailwindcss">
+        .material-symbols-outlined {
+            font-size: 20px;
+        }
+
+        .active-nav {
+            border-left: 4px solid #a0f906;
+            background-color: rgba(160, 249, 6, 0.1);
+        }
+
+        .accordion-content {
+            transition: all 0.25s ease;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: #2b2e25;
+            border-radius: 10px;
+        }
+    </style>
 </head>
-<body>
-    <nav class="menu-lateral">
-        <div class="btn-expandir">
-            <img class="logo" src="/APP/static/img/logo-branca-maior.png" alt="">      
+
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 overflow-hidden">
+
+<div class="flex h-screen w-full">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-brand-dark flex flex-col border-r border-white/5">
+
+        <!-- Logo -->
+        <div class="p-6 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center">
+                <img
+                    src="https://hevogroup.es/wp-content/uploads/2025/04/Global-Eggs_-logo.png"
+                    alt="Global Eggs"
+                    class="w-full h-full object-contain p-1"
+                />
+            </div>
+
+            <div>
+                <p class="text-white font-bold leading-none">Global Eggs</p>
+                <p class="text-white/40 text-xs uppercase tracking-widest mt-1">
+                    BI Portal
+                </p>
+            </div>
         </div>
 
-        <ul>
-            <li class="item-menu" data-target="Invoicing">
-                <a href="#">
-                    <span class="icon"><i class="bi bi-cast"></i></span>
-                    <span class="txt-link">Invoicing</span>
-                </a>
-            </li>
-            <li class="item-menu" data-target="Production">
-                <a href="#">
-                    <span class="icon"><i class="bi bi-box2"></i></span>
-                    <span class="txt-link">Production</span>
-                </a>
-            </li>
-            <li class="item-menu" data-target="Contact">
-                <a href="#">
-                    <span class="icon"><i class="bi bi-person-rolodex"></i></span>
-                    <span class="txt-link">Contact</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <div class="Dashboard">
-        <iframe id="Invoicing" src="https://app.powerbi.com/view?r=eyJrIjoiZTBkZTU4ZTMtOTc3My00NmE1LTllM2QtNGJjZjE5YWUwZDU1IiwidCI6ImE4YTc5ZmJlLTQ1MzktNGRhYi1iYjAzLTdhMGZiNDJhNGMzZSIsImMiOjN9" frameborder="0"></iframe>
-        <iframe id="Production" src="https://app.powerbi.com/view?r=eyJrIjoiYTEzOWQ2YTYtM2VkZS00YTk3LWExMWEtZDc2OTFjYjYyZmI4IiwidCI6ImE4YTc5ZmJlLTQ1MzktNGRhYi1iYjAzLTdhMGZiNDJhNGMzZSIsImMiOjN9" frameborder="0"></iframe>
-    </div>
 
+        <!-- NAV -->
+        <nav class="flex-1 px-3 py-4 space-y-4 sidebar-scroll">
 
-    <script src="../static/js/jav.js"></script>
+            <!-- USA -->
+            <div>
+                <button class="accordion-toggle w-full flex items-center justify-between px-3 py-2 text-xs font-bold uppercase text-white/50">
+                    <span>Hillandale Farms</span>
+                    <span class="material-symbols-outlined transition-transform">expand_more</span>
+                </button>
+
+                <div class="accordion-content hidden mt-1 space-y-1">
+
+                    <a href="#" class="nav-btn flex items-center gap-3 px-3 py-2 text-white/70 hover:bg-white/5"
+                       data-src="https://app.powerbi.com/view?r=eyJrIjoiZTBkZTU4ZTMtOTc3My00NmE1LTllM2QtNGJjZjE5YWUwZDU1IiwidCI6ImE4YTc5ZmJlLTQ1MzktNGRhYi1iYjAzLTdhMGZiNDJhNGMzZSIsImMiOjN9">
+                        <span class="material-symbols-outlined">analytics</span>
+                        <span class="text-sm font-semibold">Commercial</span>
+                    </a>
+
+                    <a href="#" class="nav-btn flex items-center gap-3 px-3 py-2 text-white/70 hover:bg-white/5"
+                       data-src="https://app.powerbi.com/view?r=eyJrIjoiZjliNTlmMmUtMGJlOS00MTMzLTg4MzUtNGE2YzAxNjViMjM1IiwidCI6ImE4YTc5ZmJlLTQ1MzktNGRhYi1iYjAzLTdhMGZiNDJhNGMzZSIsImMiOjN9">
+                        <span class="material-symbols-outlined">factory</span>
+                        <span class="text-sm">Production</span>
+                    </a>
+
+                    <a href="#" class="nav-btn flex items-center gap-3 px-3 py-2 text-white/70 hover:bg-white/5"
+                       data-src="https://app.powerbi.com/view?r=eyJrIjoiZjliNTlmMmUtMGJlOS00MTMzLTg4MzUtNGE2YzAxNjViMjM1IiwidCI6ImE4YTc5ZmJlLTQ1MzktNGRhYi1iYjAzLTdhMGZiNDJhNGMzZSIsImMiOjN9">
+                        <span class="material-symbols-outlined">stacked_bar_chart</span>
+                        <span class="text-sm">PO</span>
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- BRAZIL -->
+            <div>
+                <button class="accordion-toggle w-full flex items-center justify-between px-3 py-2 text-xs font-bold uppercase text-white/50">
+                    <span>Brazil</span>
+                    <span class="material-symbols-outlined transition-transform">expand_more</span>
+                </button>
+
+                <div class="accordion-content hidden mt-1 space-y-1">
+
+                    <a
+                        href="https://granjafaria.insolo.com.br/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white hover:bg-white/5 rounded-lg"
+                    >
+                        <span class="material-symbols-outlined">analytics</span>
+                        <span class="text-sm">Portal</span>
+                        <span class="material-symbols-outlined text-xs opacity-60">open_in_new</span>
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- Espanha -->
+            <div>
+                <button class="accordion-toggle w-full flex items-center justify-between px-3 py-2 text-xs font-bold uppercase text-white/50">
+                    <span>Hevo</span>
+                    <span class="material-symbols-outlined transition-transform">expand_more</span>
+                </button>
+
+                <div class="accordion-content hidden mt-1 space-y-1">
+
+                    <a href="#" class="nav-btn flex items-center gap-3 px-3 py-2 text-white/70 hover:bg-white/5"
+                       data-src="https://app.powerbi.com/view?r=eyJrIjoiY2Q3ZmU3ZTQtNjJjNi00Zjg1LThhZjktZTgzYzI1Yjg0YzZlIiwidCI6ImE4YTc5ZmJlLTQ1MzktNGRhYi1iYjAzLTdhMGZiNDJhNGMzZSIsImMiOjN9&pageName=fce20b753b1e7dc99072">
+                        <span class="material-symbols-outlined">analytics</span>
+                        <span class="text-sm font-semibold">Commercial</span>
+                    </a>
+                </div>
+            </div>
+
+        </nav>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main class="flex-1 flex flex-col overflow-hidden">
+
+        <!-- HEADER -->
+        <header class="h-16 bg-white dark:bg-brand-dark/50 border-b border-slate-200 dark:border-white/5"></header>
+
+        <!-- CONTENT -->
+        <div class="flex-1 p-6 overflow-hidden">
+            <div class="h-full rounded-lg border border-slate-200 dark:border-white/5 bg-white dark:bg-brand-dark/50 overflow-hidden">
+                <iframe
+                    id="dashboardFrame"
+                    src="https://app.powerbi.com/view?r=eyJrIjoiZTBkZTU4ZTMtOTc3My00NmE1LTllM2QtNGJjZjE5YWUwZDU1IiwidCI6ImE4YTc5ZmJlLTQ1MzktNGRhYi1iYjAzLTdhMGZiNDJhNGMzZSIsImMiOjN9"
+                    class="w-full h-full"
+                    frameborder="0"
+                    allowfullscreen
+                ></iframe>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="p-4 text-xs text-slate-400 border-t border-slate-200 dark:border-white/5">
+            © 2024 Global Eggs — BI Portal
+        </footer>
+
+    </main>
+</div>
+
+<!-- JS -->
+<script>
+    // Accordion
+    document.querySelectorAll(".accordion-toggle").forEach(toggle => {
+        toggle.addEventListener("click", () => {
+            const content = toggle.nextElementSibling;
+            const icon = toggle.querySelector(".material-symbols-outlined");
+            content.classList.toggle("hidden");
+            icon.classList.toggle("rotate-180");
+        });
+    });
+
+    // Iframe switch
+    const iframe = document.getElementById("dashboardFrame");
+    const buttons = document.querySelectorAll(".nav-btn");
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", e => {
+            e.preventDefault();
+            iframe.src = btn.dataset.src;
+
+            buttons.forEach(b => b.classList.remove("active-nav", "text-primary"));
+            btn.classList.add("active-nav", "text-primary");
+        });
+    });
+</script>
 
 </body>
 </html>
