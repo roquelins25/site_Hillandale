@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Global Eggs BI Portal - Dev Environment</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#f27f0d",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221910",
+                        "dev-orange": "#f27f0d",
+                        "dev-surface": "#fffaf5"
+                    },
+                    fontFamily: {
+                        display: ["Inter"]
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+        }
+
+        .dev-pattern {
+            background-image: radial-gradient(
+                circle at 2px 2px,
+                rgba(242, 127, 13, 0.05) 1px,
+                transparent 0
+            );
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex items-center justify-center p-4 dev-pattern">
+
+    <div class="w-full max-w-md">
+
+        <!-- Environment Indicator Badge -->
+        <div class="flex justify-center mb-6">
+            <span class="inline-flex items-center px-4 py-1.5 rounded-full bg-primary text-white text-xs font-bold tracking-widest uppercase shadow-lg border-2 border-white dark:border-background-dark">
+                <span class="material-icons text-sm mr-2">terminal</span>
+                Development Environment
+            </span>
+        </div>
+
+        <!-- Login Card -->
+        <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-2xl border-2 border-primary/40 overflow-hidden relative">
+
+            <!-- Warning Stripe -->
+            <div class="h-1 w-full bg-primary"></div>
+
+            <div class="p-8 md:p-10">
+
+                <!-- Header -->
+                <div class="text-center mb-8">
+                    <div class="inline-flex items-center justify-center w-20 h-20 bg-primary/10 rounded-full mb-4">
+                        <img
+                            src="https://hevogroup.es/wp-content/uploads/2025/04/Global-Eggs_-logo.png"
+                            alt="Global Eggs Logo"
+                            class="w-12 h-12 object-contain"
+                        />
+                    </div>
+
+                    <h1 class="text-2xl font-bold text-zinc-800 dark:text-zinc-100">
+                        Global Eggs BI
+                    </h1>
+
+                    <p class="text-zinc-500 dark:text-zinc-400 text-sm mt-1">
+                        Dev Portal Access
+                    </p>
+                </div>
+
+                <!-- Login Form -->
+                <form method="POST" action="/login" class="space-y-5">
+
+                    <!-- Username -->
+                    <div>
+                        <label for="username" class="block text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2">
+                            Username or Email
+                        </label>
+
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-400">
+                                <span class="material-icons text-lg">person</span>
+                            </span>
+
+                            <input
+                                id="username"
+                                name="username"
+                                type="text"
+                                placeholder="dev.user@globaleggs.com"
+                                class="block w-full pl-10 pr-4 py-3 bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 rounded-lg focus:ring-primary focus:border-primary text-zinc-900 dark:text-zinc-100 transition-colors"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label for="password" class="block text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+                                Password
+                            </label>
+                        </div>
+
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-400">
+                                <span class="material-icons text-lg">lock</span>
+                            </span>
+
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                placeholder="••••••••"
+                                class="block w-full pl-10 pr-10 py-3 bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 rounded-lg focus:ring-primary focus:border-primary text-zinc-900 dark:text-zinc-100 transition-colors"
+                            />
+
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <button
+                        type="submit"
+                        class="w-full flex justify-center items-center py-3.5 px-4 rounded-lg shadow-md text-white bg-primary hover:bg-primary/90 font-bold text-base transition-all active:scale-[0.98]" >
+                        <span class="material-icons mr-2 text-xl">login</span>
+                        LOGIN TO DEV PORTAL
+                    </button>
+                </form>
+
+                <!-- Footer -->
+                <div class="mt-8 pt-6 border-t border-zinc-100 dark:border-zinc-800 text-center">
+                    <p class="text-xs text-zinc-400 dark:text-zinc-500 uppercase tracking-widest font-semibold">
+                        Authorized Personnel Only
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Decorative Background -->
+    <div class="fixed top-0 right-0 -z-10 w-1/2 h-1/2 bg-primary/5 rounded-bl-full blur-3xl opacity-50"></div>
+    <div class="fixed bottom-0 left-0 -z-10 w-1/3 h-1/3 bg-primary/10 rounded-tr-full blur-3xl opacity-30"></div>
+
+</body>
+</html>
