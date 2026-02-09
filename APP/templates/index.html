@@ -92,7 +92,8 @@
             <!-- USA -->
             <div>
                 <button class="accordion-toggle w-full flex items-center justify-between px-3 py-2 text-xs font-bold uppercase text-white/50">
-                    <span>Hillandale Farms</span>
+                    <span  class= "material-symbols-outlined text-[20px] text-primary">flag</span>
+                    <span>Hillandale</span>
                     <span class="material-symbols-outlined transition-transform">expand_more</span>
                 </button>
 
@@ -104,16 +105,27 @@
                         <span class="text-sm font-semibold">Commercial</span>
                     </a>
 
-                    <a href="#" class="nav-btn flex items-center gap-3 px-3 py-2 text-white/70 hover:bg-white/5"
-                       data-src="https://app.powerbi.com/view?r=eyJrIjoiZjliNTlmMmUtMGJlOS00MTMzLTg4MzUtNGE2YzAxNjViMjM1IiwidCI6ImE4YTc5ZmJlLTQ1MzktNGRhYi1iYjAzLTdhMGZiNDJhNGMzZSIsImMiOjN9">
+                   <a href="#"
+                    class="nav-btn dev-disabled group relative flex items-center gap-3 px-3 py-2 
+                            text-white/40 cursor-not-allowed">
+
                         <span class="material-symbols-outlined">factory</span>
+
                         <span class="text-sm">Production</span>
+
+                        <!-- Tooltip -->
+                        <span class="absolute left-full ml-3 top-1/2 -translate-y-1/2
+                                    hidden group-hover:block whitespace-nowrap
+                                    rounded-md bg-black px-3 py-1 text-xs text-white shadow-lg z-50">
+                            Em desenvolvimento 🚧
+                        </span>
                     </a>
 
+
                     <a href="#" class="nav-btn flex items-center gap-3 px-3 py-2 text-white/70 hover:bg-white/5"
-                       data-src="https://app.powerbi.com/view?r=eyJrIjoiZjliNTlmMmUtMGJlOS00MTMzLTg4MzUtNGE2YzAxNjViMjM1IiwidCI6ImE4YTc5ZmJlLTQ1MzktNGRhYi1iYjAzLTdhMGZiNDJhNGMzZSIsImMiOjN9">
+                       data-src="https://app.powerbi.com/view?r=eyJrIjoiZGQ3YzY5YzgtMWZhMC00YzFjLWEwNTUtMGYxOTQ5OWI0NTJhIiwidCI6ImE4YTc5ZmJlLTQ1MzktNGRhYi1iYjAzLTdhMGZiNDJhNGMzZSIsImMiOjN9">
                         <span class="material-symbols-outlined">stacked_bar_chart</span>
-                        <span class="text-sm">PO</span>
+                        <span class="text-sm">PO Approvals</span>
                     </a>
 
                 </div>
@@ -122,6 +134,7 @@
             <!-- BRAZIL -->
             <div>
                 <button class="accordion-toggle w-full flex items-center justify-between px-3 py-2 text-xs font-bold uppercase text-white/50">
+                    <span id ="Flag" class= "material-symbols-outlined text-[20px] text-primary">flag</span>
                     <span>Brazil</span>
                     <span class="material-symbols-outlined transition-transform">expand_more</span>
                 </button>
@@ -145,6 +158,7 @@
             <!-- Espanha -->
             <div>
                 <button class="accordion-toggle w-full flex items-center justify-between px-3 py-2 text-xs font-bold uppercase text-white/50">
+                    <span id ="Flag" class= "material-symbols-outlined text-[20px] text-primary">flag</span>
                     <span>Hevo</span>
                     <span class="material-symbols-outlined transition-transform">expand_more</span>
                 </button>
@@ -196,9 +210,7 @@
     document.querySelectorAll(".accordion-toggle").forEach(toggle => {
         toggle.addEventListener("click", () => {
             const content = toggle.nextElementSibling;
-            const icon = toggle.querySelector(".material-symbols-outlined");
-            content.classList.toggle("hidden");
-            icon.classList.toggle("rotate-180");
+            content.classList.toggle("hidden");           
         });
     });
 
@@ -208,7 +220,15 @@
 
     buttons.forEach(btn => {
         btn.addEventListener("click", e => {
+
+            // ⛔ AQUI: bloqueia navegação se estiver em desenvolvimento
+            if (btn.classList.contains("dev-disabled") || btn.dataset.src === "in-development") {
+                e.preventDefault();
+                return;
+            }
+
             e.preventDefault();
+
             iframe.src = btn.dataset.src;
 
             buttons.forEach(b => b.classList.remove("active-nav", "text-primary"));
@@ -216,6 +236,7 @@
         });
     });
 </script>
+
 
 </body>
 </html>
