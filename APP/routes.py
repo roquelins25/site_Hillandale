@@ -48,10 +48,6 @@ def login():
             .eq("pass", password)
             .execute()
         )
-        
-        print(result.data)
-        print(password)
-        print(username)
 
         if result.data:
             session["user"] = username 
