@@ -37,7 +37,7 @@ def login():
         if not username or not password:
             return render_template(
                 "login.html",
-                error="Por favor, preencha todos os campos."
+                error="Please enter both username and password."
             )
 
         result = (
@@ -55,7 +55,7 @@ def login():
 
         return render_template(
             "login.html",
-            error="Usuário ou senha inválidos."
+            error="Incorrect username and Password. Please try again."
         )
             
 
