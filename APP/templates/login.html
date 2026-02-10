@@ -103,7 +103,7 @@
                 </div>
 
                 <!-- Login Form -->
-                <form method="POST" action="/login" class="space-y-5">
+                <form method="POST" action="{{ url_for('main.login') }}" class="space-y-5">
 
                     <!-- Username -->
                     <div>
@@ -162,7 +162,9 @@
                 <!-- Footer -->
                 <div class="mt-8 pt-6 border-t border-zinc-100 dark:border-zinc-800 text-center">
                     <p class="text-xs text-zinc-400 dark:text-zinc-500 uppercase tracking-widest font-semibold">
-                        Authorized Personnel Only
+                              {% if error %}
+                                <div class="text-center text-sm text-red-500">{{ error }}</div>
+                              {% endif %}
                     </p>
                 </div>
 

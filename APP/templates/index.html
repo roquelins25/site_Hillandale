@@ -13,7 +13,6 @@
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
             darkMode: "class",
@@ -34,7 +33,6 @@
         };
     </script>
 
-    <!-- Custom Styles -->
     <style type="text/tailwindcss">
         .material-symbols-outlined {
             font-size: 20px;
@@ -46,16 +44,30 @@
         }
 
         .accordion-content {
-            transition: all 0.25s ease;
+            transition: max-height 0.25s ease, opacity 0.25s ease;
         }
 
-        .sidebar-scroll::-webkit-scrollbar {
-            width: 4px;
-        }
-
+        .sidebar-scroll::-webkit-scrollbar { width: 4px; }
         .sidebar-scroll::-webkit-scrollbar-thumb {
             background: #2b2e25;
             border-radius: 10px;
+        }
+
+        /* Sidebar deslizante no mobile */
+        #sidebar {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #sidebar-overlay {
+            transition: opacity 0.3s ease;
+        }
+
+        /* Rotação da seta do accordion */
+        .accordion-toggle .arrow {
+            transition: transform 0.25s ease;
+        }
+        .accordion-toggle.open .arrow {
+            transform: rotate(180deg);
         }
     </style>
 
@@ -66,149 +78,238 @@
     <script defer src="/_vercel/insights/script.js"></script>
 </head>
 
-<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 overflow-hidden">
+<!--
+    MOBILE  : overflow-x-hidden permite scroll vertical
+    DESKTOP : overflow-hidden mantém o layout fixo em tela cheia
+-->
+<body class="font-display bg-background-light dark:bg-background-dark
+             text-slate-900 dark:text-slate-100
+             overflow-x-hidden lg:overflow-hidden">
 
-<div class="flex h-screen w-full">
+<div class="flex h-screen w-full relative">
 
-    <!-- SIDEBAR -->
-    <aside class="w-64 bg-brand-dark flex flex-col border-r border-white/5">
+    <!-- ── OVERLAY (mobile) ─────────────────────────────── -->
+    <div
+        id="sidebar-overlay"
+        class="fixed inset-0 bg-black/60 z-20 opacity-0 pointer-events-none lg:hidden"
+        onclick="closeSidebar()"
+    ></div>
 
-        <!-- Logo -->
-        <div class="p-6 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center">
+    <!-- ── SIDEBAR ───────────────────────────────────────── -->
+    <!--
+        MOBILE  : fixed, começa fora da tela (-translate-x-full)
+                  desliza para dentro quando aberto (translate-x-0)
+        DESKTOP : lg:relative lg:translate-x-0 — sempre visível
+    -->
+    <aside
+        id="sidebar"
+        class="fixed top-0 left-0 z-30 h-full w-72 -translate-x-full
+               lg:relative lg:w-64 lg:translate-x-0
+               bg-brand-dark flex flex-col border-r border-white/5"
+    >
+        <!-- Logo + botão fechar -->
+        <div class="p-5 flex items-center gap-3 border-b border-white/5">
+            <div class="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
                 <img
                     src="https://hevogroup.es/wp-content/uploads/2025/04/Global-Eggs_-logo.png"
                     alt="Global Eggs"
                     class="w-full h-full object-contain p-1"
                 />
             </div>
-
-            <div>
-                <p class="text-white font-bold leading-none">Global Eggs</p>
-                <p class="text-white/40 text-xs uppercase tracking-widest mt-1">
-                    BI Portal
-                </p>
+            <div class="flex-1 min-w-0">
+                <p class="text-white font-bold leading-none truncate">Global Eggs</p>
+                <p class="text-white/40 text-xs uppercase tracking-widest mt-0.5">BI Portal</p>
             </div>
+            <!-- Botão fechar — só no mobile -->
+            <button
+                onclick="closeSidebar()"
+                class="lg:hidden ml-auto p-1 rounded-lg text-white/50 hover:text-white hover:bg-white/10 transition-colors"
+                aria-label="Fechar menu"
+            >
+                <span class="material-symbols-outlined">close</span>
+            </button>
         </div>
 
-
         <!-- NAV -->
-        <nav class="flex-1 px-3 py-4 space-y-4 sidebar-scroll">
+        <nav class="flex-1 px-3 py-4 space-y-1 sidebar-scroll overflow-y-auto">
 
-            <!-- USA -->
+            <!-- HILLANDALE -->
             <div>
-                <button class="accordion-toggle w-full flex items-center justify-between px-3 py-2 text-xs font-bold uppercase text-white/50">
-                    <span  class= "material-symbols-outlined text-[20px] text-primary">flag</span>
-                    <span>Hillandale</span>
-                    <span class="material-symbols-outlined transition-transform">expand_more</span>
+                <button class="accordion-toggle w-full flex items-center gap-2 px-3 py-2.5
+                               text-xs font-bold uppercase text-white/50
+                               hover:bg-white/5 rounded-lg transition-colors">
+                    <span class="material-symbols-outlined text-[18px] text-primary shrink-0">flag</span>
+                    <span class="flex-1 text-left">Hillandale</span>
+                    <span class="material-symbols-outlined arrow text-[18px]">expand_more</span>
                 </button>
 
-                <div class="accordion-content hidden mt-1 space-y-1">
-
-                    <a href="#" class="nav-btn flex items-center gap-3 px-3 py-2 text-white/70 hover:bg-white/5"
+                <div class="accordion-content hidden mt-1 ml-2 space-y-0.5">
+                    <!-- Commercial -->
+                    <a href="#"
+                       class="nav-btn flex items-center gap-3 px-3 py-2.5 rounded-lg
+                              text-white/70 hover:bg-white/5 hover:text-white transition-colors"
                        data-src="https://app.powerbi.com/view?r=eyJrIjoiZjliNTlmMmUtMGJlOS00MTMzLTg4MzUtNGE2YzAxNjViMjM1IiwidCI6ImE4YTc5ZmJlLTQ1MzktNGRhYi1iYjAzLTdhMGZiNDJhNGMzZSIsImMiOjN9">
-                        <span class="material-symbols-outlined">analytics</span>
+                        <span class="material-symbols-outlined text-[18px]">analytics</span>
                         <span class="text-sm font-semibold">Commercial</span>
                     </a>
 
-                   <a href="#"
-                    class="nav-btn dev-disabled group relative flex items-center gap-3 px-3 py-2 
-                            text-white/40 cursor-not-allowed">
-
-                        <span class="material-symbols-outlined">factory</span>
-
-                        <span class="text-sm">Production</span>
-
-                        <!-- Tooltip -->
+                    <!-- Production — em desenvolvimento -->
+                    <div class="relative group">
+                        <a href="#"
+                           class="nav-btn dev-disabled flex items-center gap-3 px-3 py-2.5 rounded-lg
+                                  text-white/30 cursor-not-allowed">
+                            <span class="material-symbols-outlined text-[18px]">factory</span>
+                            <span class="text-sm">Production</span>
+                            <span class="ml-auto text-[10px] font-bold uppercase tracking-wider
+                                         text-amber-400/70 bg-amber-400/10 px-1.5 py-0.5 rounded">
+                                Soon
+                            </span>
+                        </a>
                         <span class="absolute left-full ml-3 top-1/2 -translate-y-1/2
-                                    hidden group-hover:block whitespace-nowrap
-                                    rounded-md bg-black px-3 py-1 text-xs text-white shadow-lg z-50">in approval 🚧</span>
-                    </a>
+                                     hidden group-hover:block
+                                     whitespace-nowrap rounded-md bg-zinc-900 border border-white/10
+                                     px-3 py-1.5 text-xs text-white shadow-xl z-50">
+                            in approval 🚧
+                        </span>
+                    </div>
 
-
-                   <a href="#"
-                    class="nav-btn dev-disabled group relative flex items-center gap-3 px-3 py-2 
-                            text-white/40 cursor-not-allowed">
-
-                        <span class="material-symbols-outlined">factory</span>
-
-                        <span class="text-sm">PO Approvals</span>
-
-                        <!-- Tooltip -->
+                    <!-- PO Approvals — em desenvolvimento -->
+                    <div class="relative group">
+                        <a href="#"
+                           class="nav-btn dev-disabled flex items-center gap-3 px-3 py-2.5 rounded-lg
+                                  text-white/30 cursor-not-allowed">
+                            <span class="material-symbols-outlined text-[18px]">stacked_bar_chart</span>
+                            <span class="text-sm">PO Approvals</span>
+                            <span class="ml-auto text-[10px] font-bold uppercase tracking-wider
+                                         text-amber-400/70 bg-amber-400/10 px-1.5 py-0.5 rounded">
+                                Soon
+                            </span>
+                        </a>
                         <span class="absolute left-full ml-3 top-1/2 -translate-y-1/2
-                                    hidden group-hover:block whitespace-nowrap
-                                    rounded-md bg-black px-3 py-1 text-xs text-white shadow-lg z-50">in approval 🚧</span>
-                    </a>
-
+                                     hidden group-hover:block
+                                     whitespace-nowrap rounded-md bg-zinc-900 border border-white/10
+                                     px-3 py-1.5 text-xs text-white shadow-xl z-50">
+                            in approval 🚧
+                        </span>
+                    </div>
                 </div>
             </div>
 
             <!-- BRAZIL -->
             <div>
-                <button class="accordion-toggle w-full flex items-center justify-between px-3 py-2 text-xs font-bold uppercase text-white/50">
-                    <span id ="Flag" class= "material-symbols-outlined text-[20px] text-primary">flag</span>
-                    <span>Brazil</span>
-                    <span class="material-symbols-outlined transition-transform">expand_more</span>
+                <button class="accordion-toggle w-full flex items-center gap-2 px-3 py-2.5
+                               text-xs font-bold uppercase text-white/50
+                               hover:bg-white/5 rounded-lg transition-colors">
+                    <span class="material-symbols-outlined text-[18px] text-primary shrink-0">flag</span>
+                    <span class="flex-1 text-left">Brazil</span>
+                    <span class="material-symbols-outlined arrow text-[18px]">expand_more</span>
                 </button>
 
-                <div class="accordion-content hidden mt-1 space-y-1">
-
+                <div class="accordion-content hidden mt-1 ml-2 space-y-0.5">
                     <a
                         href="https://granjafaria.insolo.com.br/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white hover:bg-white/5 rounded-lg"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg
+                               text-white/70 hover:text-white hover:bg-white/5 transition-colors"
                     >
-                        <span class="material-symbols-outlined">analytics</span>
+                        <span class="material-symbols-outlined text-[18px]">analytics</span>
                         <span class="text-sm">Portal</span>
-                        <span class="material-symbols-outlined text-xs opacity-60">open_in_new</span>
+                        <span class="material-symbols-outlined text-[14px] opacity-50 ml-auto">open_in_new</span>
                     </a>
-
                 </div>
             </div>
 
-            <!-- Espanha -->
+            <!-- HEVO -->
             <div>
-                <button class="accordion-toggle w-full flex items-center justify-between px-3 py-2 text-xs font-bold uppercase text-white/50">
-                    <span id ="Flag" class= "material-symbols-outlined text-[20px] text-primary">flag</span>
-                    <span>Hevo</span>
-                    <span class="material-symbols-outlined transition-transform">expand_more</span>
+                <button class="accordion-toggle w-full flex items-center gap-2 px-3 py-2.5
+                               text-xs font-bold uppercase text-white/50
+                               hover:bg-white/5 rounded-lg transition-colors">
+                    <span class="material-symbols-outlined text-[18px] text-primary shrink-0">flag</span>
+                    <span class="flex-1 text-left">Hevo</span>
+                    <span class="material-symbols-outlined arrow text-[18px]">expand_more</span>
                 </button>
 
-                <div class="accordion-content hidden mt-1 space-y-1">
-
-                    <a href="#" class="nav-btn flex items-center gap-3 px-3 py-2 text-white/70 hover:bg-white/5"
+                <div class="accordion-content hidden mt-1 ml-2 space-y-0.5">
+                    <a href="#"
+                       class="nav-btn flex items-center gap-3 px-3 py-2.5 rounded-lg
+                              text-white/70 hover:bg-white/5 hover:text-white transition-colors"
                        data-src="https://app.powerbi.com/view?r=eyJrIjoiY2Q3ZmU3ZTQtNjJjNi00Zjg1LThhZjktZTgzYzI1Yjg0YzZlIiwidCI6ImE4YTc5ZmJlLTQ1MzktNGRhYi1iYjAzLTdhMGZiNDJhNGMzZSIsImMiOjN9&pageName=fce20b753b1e7dc99072">
-                        <span class="material-symbols-outlined">analytics</span>
+                        <span class="material-symbols-outlined text-[18px]">analytics</span>
                         <span class="text-sm font-semibold">Commercial</span>
                     </a>
                 </div>
             </div>
 
-            
         </nav>
+
         <!-- Development Area -->
-        <div class="mt-auto p-4 bg-white/5 space-y-1">
-                <a class="active-dev-nav flex items-center gap-3 px-3 py-2 text-primary rounded-r-lg transition-colors mb-2" href="{{ url_for('main.development_entry') }}" target="_blank" rel="noopener noreferrer" >
-                <span class="material-symbols-outlined">terminal</span>
+        <div class="p-4 border-t border-white/5">
+            <a
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg
+                       text-primary hover:bg-primary/10 transition-colors"
+                href="{{ url_for('main.development_entry') }}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                <span class="material-symbols-outlined text-[18px]">terminal</span>
                 <span class="text-sm font-bold tracking-tight">Development Area</span>
-                </a>
+            </a>
         </div>
     </aside>
 
-    <!-- MAIN -->
-    <main class="flex-1 flex flex-col overflow-hidden">
+    <!-- ── MAIN ──────────────────────────────────────────── -->
+    <main class="flex-1 min-w-0 flex flex-col overflow-hidden">
 
         <!-- HEADER -->
-        <header class="h-16 bg-white dark:bg-brand-dark/50 border-b border-slate-200 dark:border-white/5"></header>
+        <!--
+            MOBILE/TABLET : mostra hamburguer + logo
+            DESKTOP       : header limpo (lg:), sidebar já está visível
+        -->
+        <header class="h-16 shrink-0 bg-white dark:bg-brand-dark/50
+                        border-b border-slate-200 dark:border-white/5
+                        flex items-center px-4 gap-3">
+
+            <!-- Hamburguer — oculto no desktop -->
+            <button
+                onclick="openSidebar()"
+                class="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg
+                       text-slate-500 dark:text-white/60
+                       hover:bg-slate-100 dark:hover:bg-white/10 transition-colors shrink-0"
+                aria-label="Abrir menu"
+            >
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+
+            <!-- Logo mobile/tablet -->
+            <div class="flex items-center gap-2 lg:hidden">
+                <img
+                    src="https://hevogroup.es/wp-content/uploads/2025/04/Global-Eggs_-logo.png"
+                    alt="Global Eggs"
+                    class="w-7 h-7 object-contain"
+                />
+                <span class="text-sm font-bold text-slate-800 dark:text-white leading-none">
+                    Global Eggs
+                    <span class="hidden sm:inline text-slate-400 dark:text-white/40 font-normal"> — BI Portal</span>
+                </span>
+            </div>
+
+            <div class="ml-auto"></div>
+        </header>
 
         <!-- CONTENT -->
-        <div class="flex-1 p-6 overflow-hidden">
-            <div class="h-full rounded-lg border border-slate-200 dark:border-white/5 bg-white dark:bg-brand-dark/50 overflow-hidden">
+        <!--
+            MOBILE  : p-2 (máximo aproveitamento de tela)
+            TABLET  : sm:p-4
+            DESKTOP : lg:p-6
+        -->
+        <div class="flex-1 p-2 sm:p-4 lg:p-6 overflow-hidden">
+            <div class="h-full rounded-lg border border-slate-200 dark:border-white/5
+                        bg-white dark:bg-brand-dark/50 overflow-hidden">
                 <iframe
                     id="dashboardFrame"
                     src="https://app.powerbi.com/view?r=eyJrIjoiZjliNTlmMmUtMGJlOS00MTMzLTg4MzUtNGE2YzAxNjViMjM1IiwidCI6ImE4YTc5ZmJlLTQ1MzktNGRhYi1iYjAzLTdhMGZiNDJhNGMzZSIsImMiOjN9"
-                    class="w-full h-full"
+                    class="w-full h-full min-h-[420px]"
                     frameborder="0"
                     allowfullscreen
                 ></iframe>
@@ -216,44 +317,70 @@
         </div>
 
         <!-- FOOTER -->
-        <footer class="p-4 text-xs text-slate-400 border-t border-slate-200 dark:border-white/5">
+        <footer class="shrink-0 px-4 py-3 text-xs text-slate-400
+                        border-t border-slate-200 dark:border-white/5">
             © 2026 Global Eggs — BI Portal
         </footer>
 
     </main>
 </div>
 
-<!-- JS -->
 <script>
-    // Accordion
+    // ── Sidebar mobile ──────────────────────────────────
+    function openSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebar-overlay");
+        sidebar.classList.replace("-translate-x-full", "translate-x-0");
+        overlay.classList.replace("opacity-0", "opacity-100");
+        overlay.classList.remove("pointer-events-none");
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebar-overlay");
+        sidebar.classList.replace("translate-x-0", "-translate-x-full");
+        overlay.classList.replace("opacity-100", "opacity-0");
+        overlay.classList.add("pointer-events-none");
+        document.body.style.overflow = "";
+    }
+
+    document.addEventListener("keydown", e => {
+        if (e.key === "Escape") closeSidebar();
+    });
+
+    window.addEventListener("resize", () => {
+        if (window.innerWidth >= 1024) closeSidebar();
+    });
+
+    // ── Accordion ───────────────────────────────────────
     document.querySelectorAll(".accordion-toggle").forEach(toggle => {
         toggle.addEventListener("click", () => {
             const content = toggle.nextElementSibling;
-            content.classList.toggle("hidden");           
+            content.classList.toggle("hidden");
+            toggle.classList.toggle("open");
         });
     });
 
-    // Iframe switch
-    const iframe = document.getElementById("dashboardFrame");
+    // ── Troca de iframe ──────────────────────────────────
+    const iframe  = document.getElementById("dashboardFrame");
     const buttons = document.querySelectorAll(".nav-btn");
 
     buttons.forEach(btn => {
         btn.addEventListener("click", e => {
-
-            // ⛔ AQUI: bloqueia navegação se estiver em desenvolvimento
-            if (btn.classList.contains("dev-disabled") || btn.dataset.src === "in-development") {
-                e.preventDefault();
-                return;
-            }
-
             e.preventDefault();
+            if (btn.classList.contains("dev-disabled")) return;
 
             iframe.src = btn.dataset.src;
 
             buttons.forEach(b => b.classList.remove("active-nav", "text-primary"));
             btn.classList.add("active-nav", "text-primary");
+
+            // Fecha sidebar no mobile após selecionar
+            if (window.innerWidth < 1024) closeSidebar();
         });
     });
 </script>
+
 </body>
 </html>
